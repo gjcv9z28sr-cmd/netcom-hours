@@ -142,10 +142,28 @@ function renderCalendar(){
 
     dayBox.innerHTML = `
 
-      <div class="dayNumber">
-        ${day}
-      </div>
-    `;
+     const dateKey =
+  `${year}-${String(month + 1).padStart(2,"0")}-${String(day).padStart(2,"0")}`;
+
+dayBox.innerHTML = `
+
+  <div class="dayNumber">
+    ${day}
+  </div>
+`;
+
+dayBox.onclick = () => {
+
+  if(
+    typeof openDayModal ===
+    "function"
+  ){
+
+    openDayModal(
+      dateKey
+    );
+  }
+};
 
     calendar.appendChild(
       dayBox
