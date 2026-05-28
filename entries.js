@@ -1,329 +1,204 @@
-function renderShiftList(){
+let selectedDate = null;
 
-  const container =
-    document.getElementById("shiftList");
+// ----------------------------------
 
-  container.innerHTML = "";
+function openDayModal(dateKey){
 
-  const shifts =
-    entries[selectedDate] || [];
+  selectedDate = dateKey;
 
-  shifts.forEach((shift,index) => {
+  const modal =
+    document.getElementById(
+      "dayModal"
+    );
 
-    const div =
-      document.createElement("div");
+  if(!modal) return;
 
-    div.className = "shift-box";
+  modal.classList.remove(
+    "hidden"
+  );
 
-    div.innerHTML = `
+  document.getElementById(
+    "modalDate"
+  ).innerText =
+    dateKey;
 
-      <b>Zmiana ${index+1}</b><br>
+  const existing =
+    entries[dateKey];
 
-      ${shift.start} - ${shift.end}<br>
+  if(existing){
 
-      ${shift.hours} h
+    document.getElementById(
+      "entryType"
+    ).value =
+      existing.type || "work";
 
-      <div class="shift-actions">
+    document.getElementById(
+      "startTime"
+    ).value =
+      existing.startTime || "";
 
-        <button class="small-btn edit-btn"
-          onclick="editShift(${index})">
+    document.getElementById(
+      "endTime"
+    ).value =
+      existing.endTime || "";
 
-          ✏️ Edytuj
+    document.getElementById(
+      "orderNumber"
+    ).value =
+      existing.orderNumber || "";
 
-        </button>
+  }else{
 
-        <button class="small-btn delete-btn"
-          onclick="deleteShift(${index})">
+    document.getElementById(
+      "entryType"
+    ).value =
+      "work";
 
-          🗑 Usuń
+    document.getElementById(
+      "startTime"
+    ).value =
+      "";
 
-        </button>
+    document.getElementById(
+      "endTime"
+    ).value =
+      "";
 
-      </div>
-    `;
-
-    container.appendChild(div);
-  });
+    document.getElementById(
+      "orderNumber"
+    ).value =
+      "";
+  }
 }
 
-function clearForm(){
+// ----------------------------------
 
-  document.getElementById("entryType").value =
-    "Praca";
+function closeDayModal(){
 
-  document.getElementById("startTime").value = "";
-
-  document.getElementById("endTime").value = "";
-
-  document.getElementById("investor").value = "";
-
-  document.getElementById("notes").value = "";
-
-  document.querySelectorAll(".order-input")
-    .forEach(input => {
-      input.value = "";
-    });
-
-  handleTypeChange();
+  document
+    .getElementById(
+      "dayModal"
+    )
+    .classList.add(
+      "hidden"
+    );
 }
 
-function handleTypeChange(){
+// ----------------------------------
+
+async function saveDayEntry(){
+
+  if(!selectedDate) return;
 
   const type =
-    document.getElementById("entryType").value;
+    document.getElementById(
+      "entryType"
+    ).value;
 
-  const workFields =
-    document.getElementById("workFields");
+  const startTime =
+    document.getElementById(
+      "startTime"
+    ).value;
 
-  if(type === "Urlop" || type === "L4"){
+  const endTime =
+    document.getElementById(
+      "endTime"
+    ).value;
 
-    document.getElementById("startTime").value =
-      "06:00";
+  let orderNumber =
+    document.getElementById(
+      "orderNumber"
+    ).value;
 
-    document.getElementById("endTime").value =
-      "14:00";
+  // URL / L4
 
-    workFields.style.display = "none";
+  if(
+    type === "vacation" ||
+    type === "sick"
+  ){
 
-  } else {
-
-    workFields.style.display = "block";
-  }
-}
-
-function saveEntry(){
-
-  const type =
-    document.getElementById("entryType").value;
-
-  const start =
-    document.getElementById("startTime").value;
-
-  const end =
-    document.getElementById("endTime").value;
-
-  const investor =
-    document.getElementById("investor").value;
-
-  const notes =
-    document.getElementById("notes").value;
-
-  const orders = [];
-
-  if(type !== "Urlop" && type !== "L4"){
-
-    document.querySelectorAll(".order-input")
-      .forEach(input => {
-
-        if(input.value.trim() !== ""){
-
-          orders.push(input.value.trim());
-
-          if(!savedOrders.includes(input.value.trim())){
-
-            savedOrders.push(input.value.trim());
-          }
-        }
-      });
+    orderNumber =
+      "Wewnętrzne";
   }
 
-  saveOrders();
+  entries[selectedDate] = {
 
-  let hours = 0;
-
-  if(start && end){
-
-    const startDate =
-      new Date(`2000-01-01 ${start}`);
-
-    let endDate =
-      new Date(`2000-01-01 ${end}`);
-
-    // nocna zmiana
-    if(endDate <= startDate){
-      endDate.setDate(endDate.getDate()+1);
-    }
-
-    hours =
-      (endDate - startDate) / 1000 / 60 / 60;
-
-    hours = Number(hours.toFixed(2));
-  }
-
-  const newEntry = {
     type,
-    start,
-    end,
-    investor,
-    notes,
-    orders,
-    hours
+
+    startTime,
+
+    endTime,
+
+    orderNumber
   };
 
-  if(!entries[selectedDate]){
+  await saveEntries();
 
-    entries[selectedDate] = [];
-  }
-
-  // EDYCJA
-  if(editIndex !== null){
-
-    entries[selectedDate][editIndex] =
-      newEntry;
-
-    editIndex = null;
-
-  } else {
-
-    entries[selectedDate].push(newEntry);
-  }
-
-  saveEntries();
-
-  renderShiftList();
-
-  clearForm();
+  closeDayModal();
 
   renderCalendar();
+
+  updateWorkedHours();
 }
 
-function editShift(index){
+// ----------------------------------
 
-  const shift =
-    entries[selectedDate][index];
+function updateWorkedHours(){
 
-  editIndex = index;
+  let totalMinutes = 0;
 
-  document.getElementById("entryType").value =
-    shift.type;
-
-  document.getElementById("startTime").value =
-    shift.start;
-
-  document.getElementById("endTime").value =
-    shift.end;
-
-  document.getElementById("investor").value =
-    shift.investor || "";
-
-  document.getElementById("notes").value =
-    shift.notes || "";
-
-  document.querySelectorAll(".order-input")
-    .forEach((input,i) => {
-
-      input.value =
-        shift.orders[i] || "";
-    });
-
-  handleTypeChange();
-}
-
-function deleteShift(index){
-
-  if(!confirm("Usunąć wpis?")){
-    return;
-  }
-
-  entries[selectedDate].splice(index,1);
-
-  if(entries[selectedDate].length === 0){
-
-    delete entries[selectedDate];
-  }
-
-  saveEntries();
-
-  renderShiftList();
-
-  renderCalendar();
-}
-
-function updateSummary(){
-
-  const year =
-    currentDate.getFullYear();
-
-  const month =
-    currentDate.getMonth();
-
-  let total = 0;
-
-  Object.keys(entries).forEach(date => {
-
-    const entryDate =
-      new Date(date);
+  Object.values(entries).forEach(entry => {
 
     if(
-      entryDate.getFullYear() === year &&
-      entryDate.getMonth() === month
-    ){
+      !entry.startTime ||
+      !entry.endTime
+    ) return;
 
-      entries[date].forEach(entry => {
+    const [sh, sm] =
+      entry.startTime
+        .split(":")
+        .map(Number);
 
-        total += Number(entry.hours || 0);
-      });
+    const [eh, em] =
+      entry.endTime
+        .split(":")
+        .map(Number);
+
+    let start =
+      sh * 60 + sm;
+
+    let end =
+      eh * 60 + em;
+
+    if(end < start){
+
+      end += 24 * 60;
     }
+
+    totalMinutes +=
+      end - start;
   });
 
-  document.getElementById("summaryBox")
-    .innerText =
-      `Suma godzin: ${total.toFixed(1)} h`;
+  const totalHours =
+    (totalMinutes / 60)
+      .toFixed(1);
+
+  document.getElementById(
+    "workedHours"
+  ).innerText =
+    totalHours + "h";
 }
 
-function updateVacationCounter(){
+// ----------------------------------
 
-  let used = 0;
+window.openDayModal =
+  openDayModal;
 
-  Object.values(entries).forEach(day => {
+window.closeDayModal =
+  closeDayModal;
 
-    day.forEach(entry => {
+window.saveDayEntry =
+  saveDayEntry;
 
-      if(entry.type === "Urlop"){
-        used++;
-      }
-    });
-  });
-
-  const left =
-    CONFIG.vacationDays - used;
-
-  document.getElementById("vacationBox")
-    .innerText =
-      `Pozostało urlopu: ${left} dni`;
-}
-
-function showOrders(input){
-
-  const dropdown =
-    input.nextElementSibling;
-
-  dropdown.innerHTML = "";
-
-  savedOrders
-    .slice()
-    .reverse()
-    .forEach(order => {
-
-      const div =
-        document.createElement("div");
-
-      div.className = "order-item";
-
-      div.innerText = order;
-
-      div.onclick = () => {
-
-        input.value = order;
-
-        dropdown.innerHTML = "";
-      };
-
-      dropdown.appendChild(div);
-    });
-}
-window.saveEntry = saveEntry;
-window.editShift = editShift;
-window.deleteShift = deleteShift;
-window.showOrders = showOrders;
-window.handleTypeChange = handleTypeChange;
+window.updateWorkedHours =
+  updateWorkedHours;
