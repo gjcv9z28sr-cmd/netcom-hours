@@ -1,6 +1,26 @@
 let selectedDate = null;
 
-// ----------------------------------
+// ----------------------------------------
+
+function getEntryColor(type){
+
+  switch(type){
+
+    case "delegation":
+      return "#ff9800";
+
+    case "vacation":
+      return "#4caf50";
+
+    case "sick":
+      return "#f44336";
+
+    default:
+      return "#2196f3";
+  }
+}
+
+// ----------------------------------------
 
 function openDayModal(dateKey){
 
@@ -11,8 +31,6 @@ function openDayModal(dateKey){
       "dayModal"
     );
 
-  if(!modal) return;
-
   modal.classList.remove(
     "hidden"
   );
@@ -22,30 +40,45 @@ function openDayModal(dateKey){
   ).innerText =
     dateKey;
 
-  const existing =
+  const entry =
     entries[dateKey];
 
-  if(existing){
+  if(entry){
 
     document.getElementById(
       "entryType"
     ).value =
-      existing.type || "work";
+      entry.type || "work";
 
     document.getElementById(
       "startTime"
     ).value =
-      existing.startTime || "";
+      entry.startTime || "";
 
     document.getElementById(
       "endTime"
     ).value =
-      existing.endTime || "";
+      entry.endTime || "";
 
     document.getElementById(
-      "orderNumber"
+      "order1"
     ).value =
-      existing.orderNumber || "";
+      entry.orders?.[0] || "";
+
+    document.getElementById(
+      "order2"
+    ).value =
+      entry.orders?.[1] || "";
+
+    document.getElementById(
+      "order3"
+    ).value =
+      entry.orders?.[2] || "";
+
+    document.getElementById(
+      "notes"
+    ).value =
+      entry.notes || "";
 
   }else{
 
@@ -65,13 +98,30 @@ function openDayModal(dateKey){
       "";
 
     document.getElementById(
-      "orderNumber"
+      "order1"
+    ).value =
+      "";
+
+    document.getElementById(
+      "order2"
+    ).value =
+      "";
+
+    document.getElementById(
+      "order3"
+    ).value =
+      "";
+
+    document.getElementById(
+      "notes"
     ).value =
       "";
   }
+
+  toggleOrderInputs();
 }
 
-// ----------------------------------
+// ----------------------------------------
 
 function closeDayModal(){
 
@@ -84,7 +134,64 @@ function closeDayModal(){
     );
 }
 
-// ----------------------------------
+// ----------------------------------------
+
+function toggleOrderInputs(){
+
+  const type =
+    document.getElementById(
+      "entryType"
+    ).value;
+
+  const ordersSection =
+    document.getElementById(
+      "ordersSection"
+    );
+
+  if(
+    type === "vacation" ||
+    type === "sick"
+  ){
+
+    ordersSection.style.display =
+      "none";
+
+  }else{
+
+    ordersSection.style.display =
+      "block";
+  }
+
+  // AUTO 8H
+
+  if(type === "vacation"){
+
+    document.getElementById(
+      "startTime"
+    ).value =
+      "06:00";
+
+    document.getElementById(
+      "endTime"
+    ).value =
+      "14:00";
+  }
+
+  if(type === "sick"){
+
+    document.getElementById(
+      "startTime"
+    ).value =
+      "06:00";
+
+    document.getElementById(
+      "endTime"
+    ).value =
+      "14:00";
+  }
+}
+
+// ----------------------------------------
 
 async function saveDayEntry(){
 
@@ -95,41 +202,45 @@ async function saveDayEntry(){
       "entryType"
     ).value;
 
-  const startTime =
+  const orders = [
+
     document.getElementById(
-      "startTime"
-    ).value;
+      "order1"
+    ).value,
 
-  const endTime =
     document.getElementById(
-      "endTime"
-    ).value;
+      "order2"
+    ).value,
 
-  let orderNumber =
     document.getElementById(
-      "orderNumber"
-    ).value;
+      "order3"
+    ).value
 
-  // URL / L4
-
-  if(
-    type === "vacation" ||
-    type === "sick"
-  ){
-
-    orderNumber =
-      "Wewnętrzne";
-  }
+  ].filter(Boolean);
 
   entries[selectedDate] = {
 
     type,
 
-    startTime,
+    startTime:
+      document.getElementById(
+        "startTime"
+      ).value,
 
-    endTime,
+    endTime:
+      document.getElementById(
+        "endTime"
+      ).value,
 
-    orderNumber
+    orders,
+
+    notes:
+      document.getElementById(
+        "notes"
+      ).value,
+
+    color:
+      getEntryColor(type)
   };
 
   await saveEntries();
@@ -141,7 +252,24 @@ async function saveDayEntry(){
   updateWorkedHours();
 }
 
-// ----------------------------------
+// ----------------------------------------
+
+async function deleteDayEntry(){
+
+  if(!selectedDate) return;
+
+  delete entries[selectedDate];
+
+  await saveEntries();
+
+  closeDayModal();
+
+  renderCalendar();
+
+  updateWorkedHours();
+}
+
+// ----------------------------------------
 
 function updateWorkedHours(){
 
@@ -179,17 +307,14 @@ function updateWorkedHours(){
       end - start;
   });
 
-  const totalHours =
-    (totalMinutes / 60)
-      .toFixed(1);
-
   document.getElementById(
     "workedHours"
   ).innerText =
-    totalHours + "h";
+    (totalMinutes / 60).toFixed(1)
+    + "h";
 }
 
-// ----------------------------------
+// ----------------------------------------
 
 window.openDayModal =
   openDayModal;
@@ -200,5 +325,11 @@ window.closeDayModal =
 window.saveDayEntry =
   saveDayEntry;
 
+window.deleteDayEntry =
+  deleteDayEntry;
+
 window.updateWorkedHours =
   updateWorkedHours;
+
+window.toggleOrderInputs =
+  toggleOrderInputs;
