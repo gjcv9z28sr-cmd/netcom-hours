@@ -1,21 +1,17 @@
-let currentDate =
-  new Date();
+let currentDate = new Date();
 
-function renderCalendar(){
+// ----------------------------
+
+function renderCalendar() {
 
   const calendar =
     document.getElementById(
       "calendar"
     );
 
-  if(!calendar){
+  if (!calendar) return;
 
-    console.error(
-      "Brak #calendar"
-    );
-
-    return;
-  }
+  calendar.innerHTML = "";
 
   const monthTitle =
     document.getElementById(
@@ -45,27 +41,8 @@ function renderCalendar(){
     "Grudzień"
   ];
 
-  if(monthTitle){
-
-    monthTitle.innerText =
-      `${monthNames[month]} ${year}`;
-  }
-
-  calendar.innerHTML = "";
-
-  const firstDay =
-    new Date(
-      year,
-      month,
-      1
-    ).getDay();
-
-  const daysInMonth =
-    new Date(
-      year,
-      month + 1,
-      0
-    ).getDate();
+  monthTitle.innerText =
+    `${monthNames[month]} ${year}`;
 
   const weekDays = [
 
@@ -78,43 +55,59 @@ function renderCalendar(){
     "Nd"
   ];
 
-  // HEADER
+  // ----------------------------
+  // WEEK HEADER
+  // ----------------------------
 
   weekDays.forEach(day => {
 
-    const dayEl =
-      document.createElement(
-        "div"
-      );
+    const weekDay =
+      document.createElement("div");
 
-    dayEl.className =
+    weekDay.className =
       "weekDay";
 
-    dayEl.innerText =
+    weekDay.innerText =
       day;
 
     calendar.appendChild(
-      dayEl
+      weekDay
     );
   });
 
-  // EMPTY CELLS
+  // ----------------------------
+  // DAYS
+  // ----------------------------
+
+  const firstDay =
+    new Date(
+      year,
+      month,
+      1
+    ).getDay();
 
   const normalizedFirstDay =
     firstDay === 0
       ? 6
       : firstDay - 1;
 
-  for(
+  const daysInMonth =
+    new Date(
+      year,
+      month + 1,
+      0
+    ).getDate();
+
+  // EMPTY CELLS
+
+  for (
     let i = 0;
     i < normalizedFirstDay;
     i++
-  ){
+  ) {
 
     const empty =
-      document.createElement(
-        "div"
-      );
+      document.createElement("div");
 
     empty.className =
       "emptyDay";
@@ -124,46 +117,47 @@ function renderCalendar(){
     );
   }
 
-  // DAYS
+  // REAL DAYS
 
-  for(
+  for (
     let day = 1;
     day <= daysInMonth;
     day++
-  ){
+  ) {
 
     const dayBox =
-      document.createElement(
-        "div"
-      );
+      document.createElement("div");
 
     dayBox.className =
       "dayBox";
 
+    const dateKey =
+      `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
     dayBox.innerHTML = `
 
-     const dateKey =
-  `${year}-${String(month + 1).padStart(2,"0")}-${String(day).padStart(2,"0")}`;
+      <div class="dayNumber">
+        ${day}
+      </div>
+    `;
 
-dayBox.innerHTML = `
+    // CLICK
 
-  <div class="dayNumber">
-    ${day}
-  </div>
-`;
+    dayBox.addEventListener(
+      "click",
+      () => {
 
-dayBox.onclick = () => {
+        if (
+          typeof openDayModal ===
+          "function"
+        ) {
 
-  if(
-    typeof openDayModal ===
-    "function"
-  ){
-
-    openDayModal(
-      dateKey
+          openDayModal(
+            dateKey
+          );
+        }
+      }
     );
-  }
-};
 
     calendar.appendChild(
       dayBox
@@ -171,7 +165,9 @@ dayBox.onclick = () => {
   }
 }
 
-function prevMonth(){
+// ----------------------------
+
+function prevMonth() {
 
   currentDate.setMonth(
     currentDate.getMonth() - 1
@@ -180,7 +176,9 @@ function prevMonth(){
   renderCalendar();
 }
 
-function nextMonth(){
+// ----------------------------
+
+function nextMonth() {
 
   currentDate.setMonth(
     currentDate.getMonth() + 1
@@ -188,6 +186,8 @@ function nextMonth(){
 
   renderCalendar();
 }
+
+// ----------------------------
 
 window.renderCalendar =
   renderCalendar;
