@@ -274,7 +274,6 @@ i<!DOCTYPE html>
     <div class="modalHeader">
 
       <h2 id="modalDate">
-        Nowy wpis
       </h2>
 
       <button
@@ -292,10 +291,17 @@ i<!DOCTYPE html>
         Typ wpisu
       </label>
 
-      <select id="entryType">
+      <select
+        id="entryType"
+        onchange="toggleOrderInputs()"
+      >
 
         <option value="work">
           Praca
+        </option>
+
+        <option value="delegation">
+          Delegacja
         </option>
 
         <option value="vacation">
@@ -336,17 +342,58 @@ i<!DOCTYPE html>
 
     </div>
 
+    <div id="ordersSection">
+
+      <div class="formGroup">
+
+        <label>
+          Zlecenie 1
+        </label>
+
+        <input
+          type="text"
+          id="order1"
+        >
+
+      </div>
+
+      <div class="formGroup">
+
+        <label>
+          Zlecenie 2
+        </label>
+
+        <input
+          type="text"
+          id="order2"
+        >
+
+      </div>
+
+      <div class="formGroup">
+
+        <label>
+          Zlecenie 3
+        </label>
+
+        <input
+          type="text"
+          id="order3"
+        >
+
+      </div>
+
+    </div>
+
     <div class="formGroup">
 
       <label>
-        Zlecenie
+        Uwagi
       </label>
 
-      <input
-        type="text"
-        id="orderNumber"
-        placeholder="Np. 51_15/W/2025"
-      >
+      <textarea
+        id="notes"
+      ></textarea>
 
     </div>
 
@@ -354,7 +401,14 @@ i<!DOCTYPE html>
       class="saveBtn"
       onclick="saveDayEntry()"
     >
-      Zapisz wpis
+      Zapisz
+    </button>
+
+    <button
+      class="deleteBtn"
+      onclick="deleteDayEntry()"
+    >
+      Usuń wpis
     </button>
 
   </div>
