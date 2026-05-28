@@ -1,118 +1,181 @@
-const monthNames = [
-  "Styczeń","Luty","Marzec","Kwiecień",
-  "Maj","Czerwiec","Lipiec","Sierpień",
-  "Wrzesień","Październik","Listopad","Grudzień"
-];
-
-let currentDate = new Date();
+let currentDate =
+  new Date();
 
 function renderCalendar(){
 
-  const year = currentDate.getFullYear();
-  const month = currentDate.getMonth();
-
-  document.getElementById("monthTitle").innerText =
-    `${monthNames[month]} ${year}`;
-
   const calendar =
-    document.getElementById("calendarDays");
+    document.getElementById(
+      "calendar"
+    );
+
+  if(!calendar){
+
+    console.error(
+      "Brak #calendar"
+    );
+
+    return;
+  }
+
+  const monthTitle =
+    document.getElementById(
+      "monthTitle"
+    );
+
+  const month =
+    currentDate.getMonth();
+
+  const year =
+    currentDate.getFullYear();
+
+  const monthNames = [
+
+    "Styczeń",
+    "Luty",
+    "Marzec",
+    "Kwiecień",
+    "Maj",
+    "Czerwiec",
+
+    "Lipiec",
+    "Sierpień",
+    "Wrzesień",
+    "Październik",
+    "Listopad",
+    "Grudzień"
+  ];
+
+  if(monthTitle){
+
+    monthTitle.innerText =
+      `${monthNames[month]} ${year}`;
+  }
 
   calendar.innerHTML = "";
 
-  let firstDay =
-    new Date(year,month,1).getDay();
-
-  firstDay = firstDay === 0 ? 6 : firstDay - 1;
+  const firstDay =
+    new Date(
+      year,
+      month,
+      1
+    ).getDay();
 
   const daysInMonth =
-    new Date(year,month+1,0).getDate();
+    new Date(
+      year,
+      month + 1,
+      0
+    ).getDate();
 
-  for(let i=0;i<firstDay;i++){
+  const weekDays = [
+
+    "Pn",
+    "Wt",
+    "Śr",
+    "Cz",
+    "Pt",
+    "Sb",
+    "Nd"
+  ];
+
+  // HEADER
+
+  weekDays.forEach(day => {
+
+    const dayEl =
+      document.createElement(
+        "div"
+      );
+
+    dayEl.className =
+      "weekDay";
+
+    dayEl.innerText =
+      day;
+
+    calendar.appendChild(
+      dayEl
+    );
+  });
+
+  // EMPTY CELLS
+
+  const normalizedFirstDay =
+    firstDay === 0
+      ? 6
+      : firstDay - 1;
+
+  for(
+    let i = 0;
+    i < normalizedFirstDay;
+    i++
+  ){
 
     const empty =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
-    empty.className = "day empty";
+    empty.className =
+      "emptyDay";
 
-    calendar.appendChild(empty);
+    calendar.appendChild(
+      empty
+    );
   }
 
-  for(let day=1; day<=daysInMonth; day++){
+  // DAYS
 
-    const fullDate =
-      `${year}-${String(month+1).padStart(2,"0")}-${String(day).padStart(2,"0")}`;
+  for(
+    let day = 1;
+    day <= daysInMonth;
+    day++
+  ){
 
     const dayBox =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
-    dayBox.className = "day";
-
-    const dayEntries =
-      entries[fullDate] || [];
-
-    if(dayEntries.length > 0){
-
-      dayBox.classList.add("has-entry");
-
-      const type = dayEntries[0].type;
-
-      if(type === "Praca"){
-        dayBox.style.background =
-          CONFIG.colors.work;
-      }
-
-      if(type === "Urlop"){
-        dayBox.style.background =
-          CONFIG.colors.vacation;
-      }
-
-      if(type === "L4"){
-        dayBox.style.background =
-          CONFIG.colors.sick;
-      }
-
-      if(type === "Delegacja"){
-        dayBox.style.background =
-          CONFIG.colors.delegation;
-      }
-    }
-
-    let totalHours = 0;
-
-    dayEntries.forEach(entry => {
-      totalHours += Number(entry.hours || 0);
-    });
-
-    let hoursHtml = "";
-
-    if(totalHours > 0){
-
-      hoursHtml =
-        `<div class="hours-badge">${totalHours.toFixed(1)} h</div>`;
-    }
+    dayBox.className =
+      "dayBox";
 
     dayBox.innerHTML = `
-      <div class="day-number">${day}</div>
-      ${hoursHtml}
+
+      <div class="dayNumber">
+        ${day}
+      </div>
     `;
 
-    dayBox.onclick = () => openModal(fullDate);
-
-    calendar.appendChild(dayBox);
+    calendar.appendChild(
+      dayBox
+    );
   }
-
-  updateSummary();
-
-  updateVacationCounter();
 }
 
-function changeMonth(direction){
+function prevMonth(){
 
   currentDate.setMonth(
-    currentDate.getMonth() + direction
+    currentDate.getMonth() - 1
   );
 
   renderCalendar();
 }
-window.changeMonth = changeMonth;
-window.renderCalendar = renderCalendar;
+
+function nextMonth(){
+
+  currentDate.setMonth(
+    currentDate.getMonth() + 1
+  );
+
+  renderCalendar();
+}
+
+window.renderCalendar =
+  renderCalendar;
+
+window.prevMonth =
+  prevMonth;
+
+window.nextMonth =
+  nextMonth;
