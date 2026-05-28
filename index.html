@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pl">
+
 <head>
 
   <meta charset="UTF-8">
@@ -23,6 +24,8 @@
 
   <div class="app">
 
+    <!-- HEADER -->
+
     <header class="header">
 
       <div class="logoBox">
@@ -34,7 +37,9 @@
 
         <div>
 
-          <h1>NETCOM</h1>
+          <h1>
+            NETCOM
+          </h1>
 
           <p>
             Rejestr czasu pracy
@@ -52,7 +57,9 @@
 
       <div class="card">
 
-        <span>Przepracowane</span>
+        <span>
+          Przepracowane
+        </span>
 
         <strong id="workedHours">
           0h
@@ -62,7 +69,9 @@
 
       <div class="card">
 
-        <span>Norma</span>
+        <span>
+          Norma
+        </span>
 
         <strong id="monthlyHours">
           175h
@@ -72,7 +81,9 @@
 
       <div class="card">
 
-        <span>Bank godzin</span>
+        <span>
+          Bank godzin
+        </span>
 
         <strong id="hourBank">
           0h
@@ -82,7 +93,9 @@
 
       <div class="card">
 
-        <span>Urlop</span>
+        <span>
+          Urlop
+        </span>
 
         <strong id="vacationLeft">
           26 dni
@@ -92,7 +105,7 @@
 
     </section>
 
-    <!-- BUTTONS -->
+    <!-- ACTION BUTTONS -->
 
     <section class="actions">
 
@@ -119,10 +132,30 @@
 
     </section>
 
+    <!-- CALENDAR HEADER -->
+
+    <div class="calendarHeader">
+
+      <button
+        onclick="prevMonth()"
+      >
+        ←
+      </button>
+
+      <h2 id="monthTitle">
+      </h2>
+
+      <button
+        onclick="nextMonth()"
+      >
+        →
+      </button>
+
+    </div>
+
     <!-- CALENDAR -->
 
     <section id="calendar">
-
     </section>
 
   </div>
@@ -227,7 +260,7 @@
 
   </div>
 
-  <!-- LIBS -->
+  <!-- LIBRARIES -->
 
   <script src="https://cdn.jsdelivr.net/npm/exceljs/dist/exceljs.min.js"></script>
 
@@ -236,13 +269,21 @@
   <!-- JS -->
 
   <script src="config.js"></script>
+
   <script src="storage.js"></script>
+
   <script src="settings.js"></script>
+
   <script src="calendar.js"></script>
+
   <script src="entries.js"></script>
+
   <script src="excel.js"></script>
+
   <script src="pdf.js"></script>
+
   <script src="reports.js"></script>
+
   <script src="app.js"></script>
 
 </body>
