@@ -6,18 +6,50 @@ window.addEventListener(
 
     try{
 
+      console.log(
+        "START APP"
+      );
+
       await initDatabase();
 
-      await loadSettings();
+      console.log(
+        "DB READY"
+      );
 
-      renderCalendar();
+      if(
+        typeof loadSettings ===
+        "function"
+      ){
+
+        await loadSettings();
+      }
+
+      console.log(
+        "SETTINGS READY"
+      );
+
+      if(
+        typeof renderCalendar ===
+        "function"
+      ){
+
+        renderCalendar();
+      }
+
+      console.log(
+        "CALENDAR READY"
+      );
 
     }catch(error){
 
-      console.error(error);
+      console.error(
+        "APP ERROR:",
+        error
+      );
 
       alert(
-        "Błąd aplikacji"
+        "Błąd aplikacji: " +
+        error.message
       );
     }
   }
