@@ -34,6 +34,8 @@ window.addEventListener(
       ){
 
         renderCalendar();
+
+updateWorkedHours();
       }
 
       console.log(
