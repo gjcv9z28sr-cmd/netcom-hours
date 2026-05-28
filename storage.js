@@ -1,13 +1,8 @@
-const DB_NAME =
-  "NetcomDB";
+const DB_NAME = "NetcomDB";
 
 const DB_VERSION = 1;
 
 let db;
-
-// --------------------
-// GLOBALS
-// --------------------
 
 window.entries = {};
 
@@ -26,9 +21,7 @@ window.settings = {
   hourBank: 0
 };
 
-// --------------------
-// INIT DB
-// --------------------
+// ---------------------
 
 async function initDatabase(){
 
@@ -46,8 +39,6 @@ async function initDatabase(){
         db =
           event.target.result;
 
-        // ENTRIES
-
         if(
           !db.objectStoreNames.contains(
             "entriesStore"
@@ -59,8 +50,6 @@ async function initDatabase(){
           );
         }
 
-        // ORDERS
-
         if(
           !db.objectStoreNames.contains(
             "ordersStore"
@@ -71,8 +60,6 @@ async function initDatabase(){
             "ordersStore"
           );
         }
-
-        // SETTINGS
 
         if(
           !db.objectStoreNames.contains(
@@ -96,8 +83,6 @@ async function initDatabase(){
 
         await loadOrders();
 
-        await loadSettings();
-
         resolve();
       };
 
@@ -111,9 +96,7 @@ async function initDatabase(){
   });
 }
 
-// --------------------
-// SAVE TO DB
-// --------------------
+// ---------------------
 
 function saveToDB(
   storeName,
@@ -148,9 +131,7 @@ function saveToDB(
   });
 }
 
-// --------------------
-// LOAD FROM DB
-// --------------------
+// ---------------------
 
 function loadFromDB(
   storeName,
@@ -183,9 +164,7 @@ function loadFromDB(
   });
 }
 
-// --------------------
-// ENTRIES
-// --------------------
+// ---------------------
 
 async function saveEntries(){
 
@@ -208,9 +187,7 @@ async function loadEntries(){
     data || {};
 }
 
-// --------------------
-// ORDERS
-// --------------------
+// ---------------------
 
 async function saveOrders(){
 
@@ -233,34 +210,6 @@ async function loadOrders(){
     data || [];
 }
 
-// --------------------
-// SETTINGS
-// --------------------
-
-async function saveSettingsToDB(){
-
-  await saveToDB(
-    "settingsStore",
-    "settings",
-    settings
-  );
-}
-
-async function loadSettings(){
-
-  const data =
-    await loadFromDB(
-      "settingsStore",
-      "settings"
-    );
-
-  if(data){
-
-    window.settings =
-      data;
-  }
-}
-
 window.initDatabase =
   initDatabase;
 
@@ -270,5 +219,8 @@ window.saveEntries =
 window.saveOrders =
   saveOrders;
 
-window.saveSettingsToDB =
-  saveSettingsToDB;
+window.saveToDB =
+  saveToDB;
+
+window.loadFromDB =
+  loadFromDB;
