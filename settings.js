@@ -11,25 +11,26 @@ window.settings = {
   hourBank: 0
 };
 
-// ------------------------
+// ----------------------
 
 async function loadSettings(){
 
-  const saved =
+  const data =
     await loadFromDB(
       "settingsStore",
       "settings"
     );
 
-  if(saved){
+  if(data){
 
-    window.settings = saved;
+    window.settings =
+      data;
   }
 
   updateDashboard();
 }
 
-// ------------------------
+// ----------------------
 
 async function saveSettings(){
 
@@ -79,7 +80,28 @@ async function saveSettings(){
   closeSettingsModal();
 }
 
-// ------------------------
+// ----------------------
+
+function updateDashboard(){
+
+  document.getElementById(
+    "monthlyHours"
+  ).innerText =
+    settings.monthlyHours + "h";
+
+  document.getElementById(
+    "vacationLeft"
+  ).innerText =
+    settings.vacationDays +
+    " dni";
+
+  document.getElementById(
+    "hourBank"
+  ).innerText =
+    settings.hourBank + "h";
+}
+
+// ----------------------
 
 function openSettingsModal(){
 
@@ -117,7 +139,7 @@ function openSettingsModal(){
     settings.hourBank;
 }
 
-// ------------------------
+// ----------------------
 
 function closeSettingsModal(){
 
@@ -130,38 +152,14 @@ function closeSettingsModal(){
     );
 }
 
-// ------------------------
+window.loadSettings =
+  loadSettings;
 
-function updateDashboard(){
-
-  document.getElementById(
-    "monthlyHours"
-  ).innerText =
-    settings.monthlyHours + "h";
-
-  document.getElementById(
-    "hourBank"
-  ).innerText =
-    settings.hourBank + "h";
-
-  document.getElementById(
-    "vacationLeft"
-  ).innerText =
-    settings.vacationDays +
-    " dni";
-}
+window.saveSettings =
+  saveSettings;
 
 window.openSettingsModal =
   openSettingsModal;
 
 window.closeSettingsModal =
   closeSettingsModal;
-
-window.saveSettings =
-  saveSettings;
-
-window.loadSettings =
-  loadSettings;
-
-window.updateDashboard =
-  updateDashboard;
