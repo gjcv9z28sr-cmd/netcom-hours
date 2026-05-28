@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+i<!DOCTYPE html>
 <html lang="pl">
 
 <head>
@@ -262,7 +262,104 @@
     </div>
 
   </div>
+<!-- DAY MODAL -->
 
+<div
+  class="modalOverlay hidden"
+  id="dayModal"
+>
+
+  <div class="modal">
+
+    <div class="modalHeader">
+
+      <h2 id="modalDate">
+        Nowy wpis
+      </h2>
+
+      <button
+        class="closeBtn"
+        onclick="closeDayModal()"
+      >
+        ✕
+      </button>
+
+    </div>
+
+    <div class="formGroup">
+
+      <label>
+        Typ wpisu
+      </label>
+
+      <select id="entryType">
+
+        <option value="work">
+          Praca
+        </option>
+
+        <option value="vacation">
+          Urlop
+        </option>
+
+        <option value="sick">
+          L4
+        </option>
+
+      </select>
+
+    </div>
+
+    <div class="formGroup">
+
+      <label>
+        Godzina od
+      </label>
+
+      <input
+        type="time"
+        id="startTime"
+      >
+
+    </div>
+
+    <div class="formGroup">
+
+      <label>
+        Godzina do
+      </label>
+
+      <input
+        type="time"
+        id="endTime"
+      >
+
+    </div>
+
+    <div class="formGroup">
+
+      <label>
+        Zlecenie
+      </label>
+
+      <input
+        type="text"
+        id="orderNumber"
+        placeholder="Np. 51_15/W/2025"
+      >
+
+    </div>
+
+    <button
+      class="saveBtn"
+      onclick="saveDayEntry()"
+    >
+      Zapisz wpis
+    </button>
+
+  </div>
+
+</div>
   <!-- LIBRARIES -->
 
   <script src="https://cdn.jsdelivr.net/npm/exceljs/dist/exceljs.min.js"></script>
