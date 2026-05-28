@@ -1,0 +1,290 @@
+/* SEKCJA RAPORTÓW */
+
+.report-section{
+
+  margin-top:20px;
+}
+
+/* KARTY */
+
+.report-card{
+
+  background:white;
+
+  border-radius:24px;
+
+  padding:20px;
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,0.08);
+
+  margin-bottom:16px;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* HOVER */
+
+.report-card:hover{
+
+  transform:translateY(-2px);
+
+  box-shadow:
+    0 14px 30px rgba(0,0,0,0.1);
+}
+
+/* TYTUŁ */
+
+.report-title{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+
+  font-size:18px;
+
+  font-weight:700;
+
+  color:#111827;
+
+  margin-bottom:16px;
+}
+
+/* IKONA */
+
+.report-title i{
+
+  color:var(--primary);
+
+  font-size:20px;
+}
+
+/* PODSUMOWANIA */
+
+.stats-grid{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(auto-fit,minmax(140px,1fr));
+
+  gap:12px;
+
+  margin-top:12px;
+}
+
+/* KAFEL */
+
+.stat-box{
+
+  background:#f9fafb;
+
+  border:1px solid #e5e7eb;
+
+  border-radius:18px;
+
+  padding:16px;
+
+  transition:0.2s;
+}
+
+/* HOVER */
+
+.stat-box:hover{
+
+  background:white;
+
+  box-shadow:
+    0 8px 18px rgba(0,0,0,0.06);
+}
+
+/* LABEL */
+
+.stat-label{
+
+  font-size:13px;
+
+  color:#6b7280;
+
+  margin-bottom:8px;
+}
+
+/* VALUE */
+
+.stat-value{
+
+  font-size:24px;
+
+  font-weight:700;
+
+  color:#111827;
+}
+
+/* TABELA */
+
+.report-table{
+
+  width:100%;
+
+  border-collapse:collapse;
+
+  margin-top:16px;
+}
+
+/* HEAD */
+
+.report-table thead{
+
+  background:var(--primary);
+
+  color:white;
+}
+
+/* KOMÓRKI */
+
+.report-table th,
+.report-table td{
+
+  padding:12px;
+
+  text-align:left;
+
+  font-size:14px;
+}
+
+/* ZAOKRĄGLENIA */
+
+.report-table thead th:first-child{
+
+  border-top-left-radius:14px;
+}
+
+.report-table thead th:last-child{
+
+  border-top-right-radius:14px;
+}
+
+/* WIERSZE */
+
+.report-table tbody tr{
+
+  border-bottom:
+    1px solid #f3f4f6;
+
+  transition:0.15s;
+}
+
+/* HOVER */
+
+.report-table tbody tr:hover{
+
+  background:#f9fafb;
+}
+
+/* TAGI */
+
+.report-badge{
+
+  display:inline-flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  padding:6px 10px;
+
+  border-radius:999px;
+
+  font-size:12px;
+
+  font-weight:700;
+}
+
+/* PRACA */
+
+.badge-work{
+
+  background:#dbeafe;
+
+  color:#1d4ed8;
+}
+
+/* URLOP */
+
+.badge-vacation{
+
+  background:#fef9c3;
+
+  color:#a16207;
+}
+
+/* L4 */
+
+.badge-sick{
+
+  background:#fecaca;
+
+  color:#b91c1c;
+}
+
+/* DELEGACJA */
+
+.badge-delegation{
+
+  background:#bbf7d0;
+
+  color:#15803d;
+}
+
+/* EMPTY STATE */
+
+.empty-state{
+
+  text-align:center;
+
+  padding:40px 20px;
+
+  color:#6b7280;
+}
+
+/* IKONA */
+
+.empty-state i{
+
+  font-size:40px;
+
+  margin-bottom:12px;
+
+  opacity:0.5;
+}
+
+/* RESPONSYWNOŚĆ */
+
+@media (max-width:700px){
+
+  .stats-grid{
+
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+  .report-table{
+
+    font-size:12px;
+  }
+
+  .report-table th,
+  .report-table td{
+
+    padding:10px 8px;
+  }
+
+  .stat-value{
+
+    font-size:20px;
+  }
+}

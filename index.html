@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>NETCOM</title>
+
+  <link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" href="calendar.css">
+  <link rel="stylesheet" href="modal.css">
+  <link rel="stylesheet" href="buttons.css">
+  <link rel="stylesheet" href="reports.css">
+
+</head>
+
+<body>
+
+  <div class="app">
+
+    <header class="header">
+
+      <div class="logoBox">
+
+        <img
+          src="logo.gif"
+          class="logo"
+        >
+
+        <div>
+
+          <h1>NETCOM</h1>
+
+          <p>
+            Rejestr czasu pracy
+          </p>
+
+        </div>
+
+      </div>
+
+    </header>
+
+    <!-- DASHBOARD -->
+
+    <section class="dashboard">
+
+      <div class="card">
+
+        <span>Przepracowane</span>
+
+        <strong id="workedHours">
+          0h
+        </strong>
+
+      </div>
+
+      <div class="card">
+
+        <span>Norma</span>
+
+        <strong id="monthlyHours">
+          175h
+        </strong>
+
+      </div>
+
+      <div class="card">
+
+        <span>Bank godzin</span>
+
+        <strong id="hourBank">
+          0h
+        </strong>
+
+      </div>
+
+      <div class="card">
+
+        <span>Urlop</span>
+
+        <strong id="vacationLeft">
+          26 dni
+        </strong>
+
+      </div>
+
+    </section>
+
+    <!-- BUTTONS -->
+
+    <section class="actions">
+
+      <button
+        class="primaryBtn"
+        onclick="openSettingsModal()"
+      >
+        ⚙️ Ustawienia
+      </button>
+
+      <button
+        class="excelBtn"
+        onclick="generateExcel()"
+      >
+        📊 Export Excel
+      </button>
+
+      <button
+        class="pdfBtn"
+        onclick="generatePDF()"
+      >
+        📄 Export PDF
+      </button>
+
+    </section>
+
+    <!-- CALENDAR -->
+
+    <section id="calendar">
+
+    </section>
+
+  </div>
+
+  <!-- SETTINGS MODAL -->
+
+  <div
+    class="modalOverlay hidden"
+    id="settingsModal"
+  >
+
+    <div class="modal">
+
+      <div class="modalHeader">
+
+        <h2>
+          Ustawienia
+        </h2>
+
+        <button
+          class="closeBtn"
+          onclick="closeSettingsModal()"
+        >
+          ✕
+        </button>
+
+      </div>
+
+      <div class="formGroup">
+
+        <label>
+          Etat miesięczny (h)
+        </label>
+
+        <input
+          type="number"
+          id="settingsMonthlyHours"
+        >
+
+      </div>
+
+      <div class="formGroup">
+
+        <label>
+          Dni urlopu
+        </label>
+
+        <input
+          type="number"
+          id="settingsVacationDays"
+        >
+
+      </div>
+
+      <div class="formGroup">
+
+        <label>
+          Stawka godzinowa
+        </label>
+
+        <input
+          type="number"
+          id="settingsHourlyRate"
+        >
+
+      </div>
+
+      <div class="formGroup">
+
+        <label>
+          Delegacja / dzień
+        </label>
+
+        <input
+          type="number"
+          id="settingsDelegationPerDay"
+        >
+
+      </div>
+
+      <div class="formGroup">
+
+        <label>
+          Bank godzin
+        </label>
+
+        <input
+          type="number"
+          id="settingsHourBank"
+        >
+
+      </div>
+
+      <button
+        class="saveBtn"
+        onclick="saveSettings()"
+      >
+        Zapisz ustawienia
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- LIBS -->
+
+  <script src="https://cdn.jsdelivr.net/npm/exceljs/dist/exceljs.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <!-- JS -->
+
+  <script src="config.js"></script>
+  <script src="storage.js"></script>
+  <script src="settings.js"></script>
+  <script src="calendar.js"></script>
+  <script src="entries.js"></script>
+  <script src="excel.js"></script>
+  <script src="pdf.js"></script>
+  <script src="reports.js"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>

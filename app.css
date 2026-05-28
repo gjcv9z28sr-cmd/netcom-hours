@@ -1,0 +1,58 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial,sans-serif;
+}
+
+body{
+  background:var(--background);
+  padding:15px;
+  color:#111827;
+}
+
+.app{
+  max-width:700px;
+  margin:auto;
+}
+
+.header{
+  background:white;
+  border-radius:20px;
+  padding:20px;
+  margin-bottom:15px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.08);
+  text-align:center;
+}
+
+.logo{
+  width:180px;
+  margin-bottom:10px;
+}
+
+.summary{
+  background:white;
+  border-radius:20px;
+  padding:15px;
+  margin-top:15px;
+  text-align:center;
+  font-weight:bold;
+  box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}
+
+.buttons{
+  display:flex;
+  gap:10px;
+  margin-top:15px;
+}
+
+.action-btn{
+  flex:1;
+  border:none;
+  background:var(--primary);
+  color:white;
+  padding:14px;
+  border-radius:14px;
+  font-size:16px;
+  cursor:pointer;
+}
