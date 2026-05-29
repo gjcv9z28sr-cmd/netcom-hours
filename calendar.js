@@ -1,6 +1,26 @@
 let currentDate = new Date();
 
-// ----------------------------
+// ----------------------------------------
+
+function getTypeLabel(type) {
+
+  switch (type) {
+
+    case "delegation":
+      return "Delegacja";
+
+    case "vacation":
+      return "Urlop";
+
+    case "sick":
+      return "L4";
+
+    default:
+      return "Praca";
+  }
+}
+
+// ----------------------------------------
 
 function renderCalendar() {
 
@@ -41,8 +61,11 @@ function renderCalendar() {
     "Grudzień"
   ];
 
-  monthTitle.innerText =
-    `${monthNames[month]} ${year}`;
+  if (monthTitle) {
+
+    monthTitle.innerText =
+      `${monthNames[month]} ${year}`;
+  }
 
   const weekDays = [
 
@@ -55,14 +78,16 @@ function renderCalendar() {
     "Nd"
   ];
 
-  // ----------------------------
-  // WEEK HEADER
-  // ----------------------------
+  // ----------------------------------------
+  // HEADER DNI TYGODNIA
+  // ----------------------------------------
 
   weekDays.forEach(day => {
 
     const weekDay =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
     weekDay.className =
       "weekDay";
@@ -75,9 +100,9 @@ function renderCalendar() {
     );
   });
 
-  // ----------------------------
-  // DAYS
-  // ----------------------------
+  // ----------------------------------------
+  // PARAMETRY MIESIĄCA
+  // ----------------------------------------
 
   const firstDay =
     new Date(
@@ -98,7 +123,9 @@ function renderCalendar() {
       0
     ).getDate();
 
-  // EMPTY CELLS
+  // ----------------------------------------
+  // PUSTE POLA
+  // ----------------------------------------
 
   for (
     let i = 0;
@@ -107,7 +134,9 @@ function renderCalendar() {
   ) {
 
     const empty =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
     empty.className =
       "emptyDay";
@@ -117,7 +146,9 @@ function renderCalendar() {
     );
   }
 
-  // REAL DAYS
+  // ----------------------------------------
+  // DNI MIESIĄCA
+  // ----------------------------------------
 
   for (
     let day = 1;
@@ -126,7 +157,9 @@ function renderCalendar() {
   ) {
 
     const dayBox =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
     dayBox.className =
       "dayBox";
@@ -134,43 +167,62 @@ function renderCalendar() {
     const dateKey =
       `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 
+    const entry =
+      entries?.[dateKey];
+
+    // KOLOR
+
+    if (entry?.color) {
+
+      dayBox.style.background =
+        entry.color;
+
+      dayBox.style.color =
+        "white";
+    }
+
+    // ETYKIETA
+
+    let typeLabel = "";
+
+    if (entry) {
+
+      typeLabel =
+        getTypeLabel(
+          entry.type
+        );
+    }
+
+    // TREŚĆ KAFELKA
+
     dayBox.innerHTML = `
 
-     const entry =
-  entries[dateKey];
-
-let background =
-  "white";
-
-if(
-  entry?.color
-){
-
-  background =
-    entry.color;
-}
-
-dayBox.style.background =
-  background;
-
-dayBox.innerHTML = `
-
-  <div class="dayNumber">
-    ${day}
-  </div>
-
-  ${
-    entry
-    ? `
-      <div class="calendarType">
-        ${getTypeLabel(entry.type)}
+      <div class="dayNumber">
+        ${day}
       </div>
-    `
-    : ""
-  }
-`;
 
-    // CLICK
+      ${
+        typeLabel
+          ? `
+            <div class="calendarType">
+              ${typeLabel}
+            </div>
+          `
+          : ""
+      }
+
+      ${
+        entry?.notes
+          ? `
+            <div class="calendarNote">
+              📝
+            </div>
+          `
+          : ""
+      }
+    `;
+
+    // KLIK
 
     dayBox.addEventListener(
       "click",
@@ -194,7 +246,7 @@ dayBox.innerHTML = `
   }
 }
 
-// ----------------------------
+// ----------------------------------------
 
 function prevMonth() {
 
@@ -205,7 +257,7 @@ function prevMonth() {
   renderCalendar();
 }
 
-// ----------------------------
+// ----------------------------------------
 
 function nextMonth() {
 
@@ -216,7 +268,7 @@ function nextMonth() {
   renderCalendar();
 }
 
-// ----------------------------
+// ----------------------------------------
 
 window.renderCalendar =
   renderCalendar;
