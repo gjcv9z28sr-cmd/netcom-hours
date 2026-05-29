@@ -136,10 +136,39 @@ function renderCalendar() {
 
     dayBox.innerHTML = `
 
-      <div class="dayNumber">
-        ${day}
+     const entry =
+  entries[dateKey];
+
+let background =
+  "white";
+
+if(
+  entry?.color
+){
+
+  background =
+    entry.color;
+}
+
+dayBox.style.background =
+  background;
+
+dayBox.innerHTML = `
+
+  <div class="dayNumber">
+    ${day}
+  </div>
+
+  ${
+    entry
+    ? `
+      <div class="calendarType">
+        ${getTypeLabel(entry.type)}
       </div>
-    `;
+    `
+    : ""
+  }
+`;
 
     // CLICK
 
