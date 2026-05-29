@@ -95,3 +95,23 @@
 
   color: #0b1a3d;
 }
+.calendarType {
+
+  margin-top: 10px;
+
+  font-size: 13px;
+
+  font-weight: bold;
+
+  color: white;
+}
+
+.dayBox {
+
+  color: white;
+}
+
+.dayNumber {
+
+  color: white;
+}
