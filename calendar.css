@@ -106,12 +106,29 @@
   color: white;
 }
 
-.dayBox {
+.dayNumber {
+
+  font-size: 22px;
+
+  font-weight: bold;
+
+  color: #0b1a3d;
+}
+
+.calendarType {
+
+  margin-top: 8px;
+
+  font-size: 12px;
+
+  font-weight: bold;
 
   color: white;
 }
 
-.dayNumber {
+.calendarNote {
 
-  color: white;
+  margin-top: 6px;
+
+  font-size: 14px;
 }
