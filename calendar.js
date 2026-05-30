@@ -172,14 +172,16 @@ function renderCalendar() {
 
     // KOLOR
 
-    if (entry?.color) {
+   if (entry?.color) {
 
-      dayBox.style.background =
-        entry.color;
+  dayBox.style.background =
+    entry.color;
 
-      dayBox.style.color =
-        "white";
-    }
+  dayBox.style.color =
+    "white";
+
+  dayBox.querySelector?.(".dayNumber");
+}
 
     // ETYKIETA
 
@@ -196,7 +198,19 @@ function renderCalendar() {
     // TREŚĆ KAFELKA
 
     dayBox.innerHTML = `
+if (entry?.color) {
 
+  const number =
+    dayBox.querySelector(
+      ".dayNumber"
+    );
+
+  if(number){
+
+    number.style.color =
+      "white";
+  }
+}
       <div class="dayNumber">
         ${day}
       </div>
