@@ -198,19 +198,7 @@ function renderCalendar() {
     // TREŚĆ KAFELKA
 
     dayBox.innerHTML = `
-if (entry?.color) {
 
-  const number =
-    dayBox.querySelector(
-      ".dayNumber"
-    );
-
-  if(number){
-
-    number.style.color =
-      "white";
-  }
-}
       <div class="dayNumber">
         ${day}
       </div>
